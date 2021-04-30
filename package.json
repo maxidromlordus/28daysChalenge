@@ -1,0 +1,11 @@
+{
+  "name": "28days",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test-app"
+  },
+  "author": "Maxim Samokhvalov",
+  "license": "ISC"
+}
