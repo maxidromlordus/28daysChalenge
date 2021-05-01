@@ -1,0 +1,1 @@
+console.error("\nH:\\FrontEndDeveloper\\Projects-2021\\28days\\src\\index.js:1\nimport { getItem } from \"localforage\";\r\n^\nParseError: 'import' and 'export' may appear only with 'sourceType: module'");
