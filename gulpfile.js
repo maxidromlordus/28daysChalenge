@@ -4,6 +4,7 @@ const source = require("vinyl-source-stream");
 const { src, dest } = require("gulp");
 const { series } = require("gulp");
 const babel = require("gulp-babel");
+const { watch } = require("gulp");
 
 function transpile() {
   return src("src/index.js").pipe(babel()).pipe(dest("dist/"));
@@ -16,4 +17,7 @@ function brsfi() {
     .pipe(dest("./dist/"));
 }
 
-exports.default = series(transpile, brsfi);
+exports.default = function() {
+  watch('src/index.js', series(transpile, brsfi));
+}
+
