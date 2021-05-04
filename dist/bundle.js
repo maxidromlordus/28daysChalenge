@@ -1,9 +1,14 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
 
-var _localforage = require("localforage");
+var _localforage = _interopRequireDefault(require("localforage"));
 
-var wrapper = document.getElementById("wrapper"); //create 28 fields/
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+var wrapper = document.getElementById("wrapper"); //create Save Button
+
+var saveButton = document.createElement("button");
+saveButton.innerHTML = "Save"; //create 28 fields/
 // createGrid function. Get array from localStorage - if not exists creates new one
 
 function createGrid(arr) {
@@ -15,12 +20,15 @@ function createGrid(arr) {
       switch (arr[i]) {
         case 0:
           field.classList.add("neutral");
+          break;
 
         case 1:
           field.classList.add("done");
+          break;
 
         case 2:
           field.classList.add("fail");
+          break;
       }
 
       field.classList.add("field");
@@ -28,11 +36,13 @@ function createGrid(arr) {
       wrapper.appendChild(field);
     }
 
+    wrapper.appendChild(saveButton);
     resolve(arr);
   });
 }
 
 function changeArrayData(arr) {
+  var self = this;
   wrapper.addEventListener("click", function (e) {
     if (e.target.classList.contains("neutral")) {
       e.target.classList.remove("neutral");
@@ -51,9 +61,12 @@ function changeArrayData(arr) {
       console.log(arr[parseInt(e.target.innerText)]);
     }
   });
+  saveButton.addEventListener("click", function () {
+    _localforage["default"].setItem("28days", arr);
+  });
 }
 
-(0, _localforage.getItem)("28days", function (err, arr) {
+_localforage["default"].getItem("28days").then(function (arr) {
   if (arr === null) {
     var _arr = [];
 
@@ -63,13 +76,17 @@ function changeArrayData(arr) {
 
     createGrid(_arr).then(function (result) {
       changeArrayData(result);
-    });
+    }); //console.log(arr);
   } else {
-    createGrid(arr);
+    createGrid(arr).then(function (result) {
+      changeArrayData(result); //return arr;
+    });
   }
-
-  console.log(arr); //changeArrayData(arr);
-});
+}); // const set = setItem("28days", function (arr) {
+//   console.log(arr);
+// }).catch((err) => {
+//   console.log(err);
+// });
 },{"localforage":2}],2:[function(require,module,exports){
 (function (global){(function (){
 /*!
